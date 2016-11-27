@@ -1,2 +1,2 @@
-# cse343_server
-Internet Search Engine - Server Side
+# Internet Search Engine - Server Side
+
