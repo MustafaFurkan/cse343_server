@@ -14,7 +14,31 @@ public class Crawler extends WebCrawler {
             + "|png|mp3|mp3|zip|gz))$");
 
     private UrlForest urlForest = new UrlForest();
-    private final static String abc = "abcdefghijklmnopqrstuvwxyz";
+    private final static String alphabet = "abcdefghijklmnopqrstuvwxyz";
+    private final static int NUM_WORD_CONTENT = 10;
+
+    private String getContent(String[] tokens, int startIndex){
+
+
+      StringBuilder stringBuilder = new StringBuilder();
+ /* TODO
+        stringBuilder.append(tokens[startIndex]);
+
+        for(int i=startIndex+1;
+            i<tokens.length && i<NUM_WORD_CONTENT && tokens[i].length()>0
+                    && (Character.isLetter(tokens[i].charAt(0)) || Character.isDigit(tokens[i].charAt(0)))
+                ;++i) {
+
+            stringBuilder.append(" ");
+
+            for(int j=0;
+                j<tokens[i].length() && (Character.isLetter(tokens[i].charAt(j)) || Character.isDigit(tokens[i].charAt(j)))
+                    ;++j)
+
+                stringBuilder.append(tokens[i].charAt(j));
+        }*/
+        return stringBuilder.toString();
+    }
 
     /**
      * This method receives two parameters. The first parameter is the page
@@ -30,7 +54,7 @@ public class Crawler extends WebCrawler {
     public boolean shouldVisit(Page referringPage, WebURL url) {
         String href = url.getURL().toLowerCase();
         return !FILTERS.matcher(href).matches();
-                //&& href.startsWith("http://www.ics.uci.edu/");
+        //&& href.startsWith("http://www.ics.uci.edu/");
     }
 
     /**
@@ -50,16 +74,28 @@ public class Crawler extends WebCrawler {
 
             String[] tokens = text.split(" ");
 
-            for(String str : tokens) {
+            for(int i=0; i<tokens.length; ++i) {
 
-                if (abc.contains("" + Character.toLowerCase(str.charAt(0))) &&
-                        abc.contains("" + Character.toLowerCase(str.charAt(1))) &&
-                        abc.contains("" + Character.toLowerCase(str.charAt(2)))) {
-                    urlForest.insert(str.substring(0, 3).toLowerCase(), new Result(htmlParseData.getTitle(), url));
+                String str = tokens[i];
+
+                if (str.length() > 0 && alphabet.contains("" + Character.toLowerCase(str.charAt(0)))) {
+
+                    urlForest.insert(str.substring(0, 1).toLowerCase(), new Result(htmlParseData.getTitle(), url, getContent(tokens, i)));
+                }
+                if (str.length() > 1 && alphabet.contains("" + Character.toLowerCase(str.charAt(0))) &&
+                        alphabet.contains("" + Character.toLowerCase(str.charAt(1)))) {
+
+                    urlForest.insert(str.substring(0, 2).toLowerCase(), new Result(htmlParseData.getTitle(), url, getContent(tokens, i)));
+                }
+                if (str.length() > 2 && alphabet.contains("" + Character.toLowerCase(str.charAt(0))) &&
+                        alphabet.contains("" + Character.toLowerCase(str.charAt(1))) &&
+                        alphabet.contains("" + Character.toLowerCase(str.charAt(2)))) {
+
+                    urlForest.insert(str.substring(0, 3).toLowerCase(), new Result(htmlParseData.getTitle(), url, getContent(tokens, i)));
                 }
             }
 
-            if(urlForest.getNumUrls() > 1000){
+            if(urlForest.getNumUrls() > 20){
                 String path = "/home/user/search_engine_server.txt";
                 urlForest.writeToFile(path);
                 System.out.println("Tree saved at " + path);
