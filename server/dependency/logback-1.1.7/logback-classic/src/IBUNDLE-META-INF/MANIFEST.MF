@@ -19,4 +19,6 @@ Import-Package: org.osgi.framework,
  ch.qos.logback.core.joran.spi,
  ch.qos.logback.core.util,
  ch.qos.logback.classic,
- ch.qos.logback.classic.joran
+ ch.qos.logback.classic.joran,
+ javax.imageio,
+ org.apache.commons.codec

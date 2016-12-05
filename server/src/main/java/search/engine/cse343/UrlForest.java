@@ -55,9 +55,18 @@ public class UrlForest {
      * @param index
      * @return result at "index"
      */
-    public Result getResult(Integer index){
+    public Result getResult(int index){
 
         return results.get(index);
+    }
+
+    /**
+     * @param index
+     * @return path of the screenshot at index
+     */
+    public String getPath(int index){
+
+        return paths.get(index);
     }
 
     /**

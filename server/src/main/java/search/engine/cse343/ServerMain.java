@@ -1,17 +1,29 @@
 package search.engine.cse343;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import org.apache.commons.codec.binary.Base64;
 
 public class ServerMain {
 
     static private ArrayList<Integer> results = null;
     static private int page = 1; //default
     static private int CONTENT_PER_PAGE = 5;
+
+    private static void sendImage(PrintWriter out, String path) throws Exception{
+
+        File file = new File(path);
+        FileInputStream fileInputStreamReader = new FileInputStream(file);
+        byte[] bytes = new byte[(int)file.length()];
+        fileInputStreamReader.read(bytes);
+        String encodedImage = new String(Base64.encodeBase64(bytes), "UTF-8");
+        out.println(encodedImage);
+    }
 
     public static void main(String[] args){
 
@@ -59,16 +71,19 @@ public class ServerMain {
                 }
 
                 int i=(page-1)*CONTENT_PER_PAGE;
+                int temp; //TODO name
 
                 //send number of objects to send.
 
                 if(i+CONTENT_PER_PAGE < results.size())
 
-                    out.println(CONTENT_PER_PAGE);
+                    temp = CONTENT_PER_PAGE;
 
                 else
 
-                    out.println(results.size()-i);
+                    temp = results.size()-i;
+
+                out.println(temp);
 
                 for(; i<results.size() && i<((page-1)*CONTENT_PER_PAGE+5); ++i){
 
@@ -80,6 +95,16 @@ public class ServerMain {
 
                 out.flush();
 
+                //send screenshots
+                for(int j=0; j<temp; ++j) {
+
+                    StringBuilder path = new StringBuilder();
+                    path.append("/home/user/filesendtestfolder/"); //TODO fix path
+                    path.append((char)('a'+j));
+                    path.append(".jpg");
+
+                    sendImage(out, path.toString());
+                }
             }
             socket.close();
             serverSocket.close();
