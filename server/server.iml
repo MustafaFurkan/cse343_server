@@ -19,6 +19,42 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/dependency/logback-1.1.7/logback-access-1.1.7.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/dependency/logback-1.1.7/logback-classic-1.1.7.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/dependency/logback-1.1.7/logback-core-1.1.7.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$APPLICATION_HOME_DIR$/lib/groovy-all-2.4.6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="Maven: edu.uci.ics:crawler4j:4.2" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.10" level="project" />
     <orderEntry type="library" name="Maven: uk.org.lidalia:lidalia-slf4j-ext:1.0.0" level="project" />
@@ -63,32 +99,6 @@
     <orderEntry type="library" name="Maven: org.gagravarr:vorbis-java-core:0.1" level="project" />
     <orderEntry type="library" name="Maven: com.googlecode.juniversalchardet:juniversalchardet:1.0.3" level="project" />
     <orderEntry type="library" name="Maven: com.uwyn:jhighlight:1.0" level="project" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/dependency/logback-1.1.7/logback-access-1.1.7.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/dependency/logback-1.1.7/logback-classic-1.1.7.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/dependency/logback-1.1.7/logback-core-1.1.7.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="Maven: junit:junit:4.4" level="project" />
   </component>
 </module>

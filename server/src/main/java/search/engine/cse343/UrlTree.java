@@ -8,7 +8,7 @@ import java.util.ListIterator;
 public class UrlTree {
 
     //inner classes
-    private interface INode {
+    interface INode {
 
         /**
          * @param query
@@ -31,10 +31,28 @@ public class UrlTree {
         public void writeToFile(PrintWriter printWriter, String prefix);
     }
 
-    private class Node implements INode {
+    class Node implements INode {
 
-        private INode[] children = new INode[NUM_LETTERS];
+        final private INode[] children = new INode[NUM_LETTERS];
         private ArrayList<Integer> links = null;
+
+        /**
+         * this method for testing
+         * @return children array
+         */
+        public INode[] getChildren(){
+
+            return children;
+        }
+
+        /**
+         * this method for testing
+         * @return links arraylist
+         */
+        public ArrayList<Integer> getLinks(){
+
+            return links;
+        }
 
         /**
          * @param query
@@ -106,7 +124,16 @@ public class UrlTree {
     //UrlTree Class
 
     final static int NUM_LETTERS = 26;
-    private INode root = new Node();
+    final private INode root = new Node();
+
+    /**
+     * this method for testing
+     * @return root node
+     */
+    public INode getRoot(){
+
+        return root;
+    }
 
     /**
      * @param query
@@ -143,92 +170,3 @@ public class UrlTree {
         return root.toString();
     }
 }
-
-
-/*
-        @Override
-        public String toString(){
-
-            StringBuilder stringBuilder = new StringBuilder();
-
-            for(INode child : children) {
-                stringBuilder.append(child.toString());
-                stringBuilder.append("\n");
-            }
-
-            return stringBuilder.toString();
-        }
-    }
-*/
-
-
-/*
-    private class InternalNode implements INode{
-
-        private INode[] children = new INode[NUM_LETTERS];
-
-        public void insert(String query, Integer index){
-
-            children[query.charAt(0) - 'a'].insert(query.substring(1), index);
-        }
-
-        public ArrayList<Integer> getIndexOfUrls(String query){
-
-            return children[query.charAt(0) - 'a'].getIndexOfUrls(query.substring(1));
-        }
-
-        public void writeToFile(PrintWriter printWriter, String prefix){
-
-            for(int i=0; i<children.length; ++i)
-
-                children[i].writeToFile(printWriter, prefix + (char)('a' + i));
-        }
-
-        @Override
-        public String toString(){
-
-            StringBuilder stringBuilder = new StringBuilder();
-
-            for(INode child : children) {
-                stringBuilder.append(child.toString());
-                stringBuilder.append("\n");
-            }
-
-            return stringBuilder.toString();
-        }
-    }
-
-    private class Leaf implements INode{
-
-        final private ArrayList<Integer> links = new ArrayList<Integer>();
-
-        public void insert(String query, Integer index){
-
-            if(links.contains(index) == false)
-
-                links.add(index);
-        }
-
-        public ArrayList<Integer> getIndexOfUrls(String query) {
-
-            return links;
-        }
-
-        public void writeToFile(PrintWriter printWriter, String prefix){
-
-            printWriter.print(prefix);
-            ListIterator<Integer> it = links.listIterator();
-
-            while(it.hasNext())
-
-                printWriter.print(" " + it.next());
-
-            printWriter.print("\n");
-        }
-
-        @Override
-        public String toString(){
-
-            return links.toString();
-        }
-    }*/
