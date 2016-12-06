@@ -20,7 +20,9 @@ public class UrlTreeTest {
         //1-2-4
         assertNotNull(root.getLinks()); //2
         tree.insert("", 0); //1
-        assertTrue(root.getLinks().size() == 2 && root.getLinks().get(1).equals(0)); //4
+        assertTrue(root.getLinks().size() == 2
+                && root.getLinks().get(0).equals(0)
+                && root.getLinks().get(1).equals(0)); //4
 
         //1-5-6-7
         assertNull(root.getChildren()[0]); //5
@@ -33,6 +35,7 @@ public class UrlTreeTest {
         assertNotNull(root.getChildren()[0]); //5
         tree.insert("a", 0); //1
         assertTrue(((UrlTree.Node)root.getChildren()[0]).getLinks().size() == 2
+                && ((UrlTree.Node)root.getChildren()[0]).getLinks().get(0).equals(0)
                 && ((UrlTree.Node)root.getChildren()[0]).getLinks().get(1).equals(0)); //7
     }
 
