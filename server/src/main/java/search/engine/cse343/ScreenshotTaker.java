@@ -1,9 +1,12 @@
+package search.engine.cse343;
+
 import java.io.IOException;
+
 public class ScreenshotTaker{
 
 	public static void takeScreenshot(String url, String path){
 		
-		String[] c = new String[] {"/bin/bash", "-c", "phantomjs /home/canerbakar/Desktop/github.js " 
+		String[] c = new String[] {"/bin/bash", "-c", "phantomjs github.js "
         	+ url + path};
 		
 		Process proc = null;

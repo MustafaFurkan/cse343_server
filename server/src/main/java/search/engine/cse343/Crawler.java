@@ -72,7 +72,7 @@ public class Crawler extends WebCrawler {
             String html = htmlParseData.getHtml();
             Set<WebURL> links = htmlParseData.getOutgoingUrls();
 
-            String[] tokens = text.split(" ");
+            String[] tokens = text.split("/([A-Za-z@.])\\w+/g");
 
             for(int i=0; i<tokens.length; ++i) {
 
@@ -95,8 +95,8 @@ public class Crawler extends WebCrawler {
                 }
             }
 
-            if(urlForest.getNumUrls() > 20){
-                String path = "/home/user/search_engine_server.txt";
+            if(urlForest.getNumUrls() > 2000){
+                String path = "search_engine_server.txt";
                 urlForest.writeToFile(path);
                 System.out.println("Tree saved at " + path);
                 System.exit(0);

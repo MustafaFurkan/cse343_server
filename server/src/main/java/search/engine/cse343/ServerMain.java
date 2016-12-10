@@ -29,7 +29,7 @@ public class ServerMain {
 
         // init server
         UrlForest urlForest = new UrlForest();
-        urlForest.readFromFile("/home/user/search_engine_server.txt");
+        urlForest.readFromFile("search_engine_server.txt");
 
         System.out.println("Forest restored. Links: " + urlForest.getNumUrls());
 
@@ -91,6 +91,9 @@ public class ServerMain {
 
                     out.println(urlForest.getResult(index).getTitle());
                     out.println(urlForest.getResult(index).getUrl());
+
+                    System.out.println("title " + urlForest.getResult(index).getTitle());
+                    System.out.println("url " + urlForest.getResult(index).getUrl());
                 }
 
                 out.flush();
@@ -104,6 +107,7 @@ public class ServerMain {
                     path.append(".jpg");
 
                     sendImage(out, path.toString());
+                    out.flush();
                 }
             }
             socket.close();
