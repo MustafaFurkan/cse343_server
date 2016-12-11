@@ -12,7 +12,6 @@ public class UrlForest {
     final private String screenshotsFolder = "screenshots";
     private UrlTree[] trees = new UrlTree[UrlTree.NUM_LETTERS];
     final private ArrayList<Result> results = new ArrayList<Result>();
-    final private ArrayList<String> paths = new ArrayList<String>();
 
     public UrlForest(){
 
@@ -58,23 +57,6 @@ public class UrlForest {
     public Result getResult(int index){
 
         return results.get(index);
-    }
-
-    /**
-     * @param path
-     */
-    public void addPath(String path){
-
-        paths.add(path);
-    }
-
-    /**
-     * @param index
-     * @return path of the screenshot at index
-     */
-    public String getPath(int index){
-
-        return paths.get(index);
     }
 
     /**

@@ -14,6 +14,7 @@ public class ServerMain {
     static private ArrayList<Integer> results = null;
     static private int page = 1; //default
     static private int CONTENT_PER_PAGE = 5;
+    static private String PATH_SCREENSHOTS = "screenshots/";
 
     private static void sendImage(PrintWriter out, String path) throws Exception{
 
@@ -32,20 +33,6 @@ public class ServerMain {
         urlForest.readFromFile("search_engine_server.txt");
 
         System.out.println("Forest restored. Links: " + urlForest.getNumUrls());
-
-        //restore paths
-        for(int i=1484; i<urlForest.getNumUrls(); ++i){
-
-            StringBuilder path = new StringBuilder();
-            path.append("screenshots/");
-            path.append(i);
-            path.append(".jpg");
-
-            urlForest.addPath(path.toString());
-        }
-
-        System.out.println("Paths restored");
-
 
         try {
             //init socket
@@ -113,7 +100,10 @@ public class ServerMain {
                 //send screenshots
                 for(; j<((page-1)*CONTENT_PER_PAGE+5); ++j) {
 
-                    sendImage(out, urlForest.getPath(j));
+                    int index = results.get(j);
+
+                    sendImage(out, PATH_SCREENSHOTS + Integer.toString(index) + ".jpg");
+
                     out.flush();
                 }
             }
