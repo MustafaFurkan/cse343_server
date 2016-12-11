@@ -61,6 +61,14 @@ public class UrlForest {
     }
 
     /**
+     * @param path
+     */
+    public void addPath(String path){
+
+        paths.add(path);
+    }
+
+    /**
      * @param index
      * @return path of the screenshot at index
      */

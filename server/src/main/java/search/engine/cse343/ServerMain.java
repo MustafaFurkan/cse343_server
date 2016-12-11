@@ -33,6 +33,20 @@ public class ServerMain {
 
         System.out.println("Forest restored. Links: " + urlForest.getNumUrls());
 
+        //restore paths
+        for(int i=1484; i<urlForest.getNumUrls(); ++i){
+
+            StringBuilder path = new StringBuilder();
+            path.append("screenshots/");
+            path.append(i);
+            path.append(".jpg");
+
+            urlForest.addPath(path.toString());
+        }
+
+        System.out.println("Paths restored");
+
+
         try {
             //init socket
             ServerSocket serverSocket = new ServerSocket(9090);
@@ -71,6 +85,7 @@ public class ServerMain {
                 }
 
                 int i=(page-1)*CONTENT_PER_PAGE;
+                int j = i;
                 int temp; //TODO name
 
                 //send number of objects to send.
@@ -91,22 +106,14 @@ public class ServerMain {
 
                     out.println(urlForest.getResult(index).getTitle());
                     out.println(urlForest.getResult(index).getUrl());
-
-                    System.out.println("title " + urlForest.getResult(index).getTitle());
-                    System.out.println("url " + urlForest.getResult(index).getUrl());
                 }
 
                 out.flush();
 
                 //send screenshots
-                for(int j=0; j<temp; ++j) {
+                for(; j<((page-1)*CONTENT_PER_PAGE+5); ++j) {
 
-                    StringBuilder path = new StringBuilder();
-                    path.append("/home/user/filesendtestfolder/"); //TODO fix path
-                    path.append((char)('a'+j));
-                    path.append(".jpg");
-
-                    sendImage(out, path.toString());
+                    sendImage(out, urlForest.getPath(j));
                     out.flush();
                 }
             }
