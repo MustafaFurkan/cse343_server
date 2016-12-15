@@ -16,14 +16,17 @@ public class ServerMain {
     static private int CONTENT_PER_PAGE = 5;
     static private String PATH_SCREENSHOTS = "screenshots/";
 
-    private static void sendImage(PrintWriter out, String path) throws Exception{
-
-        File file = new File(path);
-        FileInputStream fileInputStreamReader = new FileInputStream(file);
-        byte[] bytes = new byte[(int)file.length()];
-        fileInputStreamReader.read(bytes);
-        String encodedImage = new String(Base64.encodeBase64(bytes), "UTF-8");
-        out.println(encodedImage);
+    private static void sendImage(PrintWriter out, String path){
+        try {
+            File file = new File(path);
+            FileInputStream fileInputStreamReader = new FileInputStream(file);
+            byte[] bytes = new byte[(int) file.length()];
+            fileInputStreamReader.read(bytes);
+            String encodedImage = new String(Base64.encodeBase64(bytes), "UTF-8");
+            out.println(encodedImage);
+        }catch (Exception e){
+            out.println("");
+        }
     }
 
     public static void main(String[] args) throws  Exception{
