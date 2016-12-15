@@ -29,6 +29,45 @@ public class ServerMain {
         }
     }
 
+    private static boolean isQueryValid(String query){
+
+        if(query == null)
+
+            return false;
+
+        if(query.length() > 3)
+
+            return false;
+
+        boolean containsLetter = false, containsDigit = false;
+
+        char[] chars = query.toCharArray();
+
+        for(char ch : chars){
+
+            if(Character.isDigit(ch))
+
+                containsDigit = true;
+
+            else if(Character.isLetter(ch)) {
+
+                containsLetter = true;
+
+                if (('a' <= ch && 'z' >= ch) == false)
+
+                    return false;
+            }
+            else
+                return false;
+        }
+
+        if(containsDigit && containsLetter)
+
+            return false;
+
+        return true;
+    }
+
     public static void main(String[] args) throws  Exception{
 
         // init server
@@ -52,6 +91,13 @@ public class ServerMain {
         while(socket.isConnected()) {
 
             String str = input.readLine(); //get query from client
+
+            if(str == null || str.length() == 0 || isQueryValid(str = str.toLowerCase()) == false){
+
+                out.println("0");
+                out.flush();
+                continue ;
+            }
 
             System.out.println("Clienttan gelen: " + str);
 
@@ -81,7 +127,11 @@ public class ServerMain {
 
             //send number of objects to send.
 
-            if(i+CONTENT_PER_PAGE < results.size())
+            if(i < 0 || i > results.size())
+
+                temp = 0;
+
+            else if(i+CONTENT_PER_PAGE < results.size())
 
                 temp = CONTENT_PER_PAGE;
 
@@ -90,6 +140,12 @@ public class ServerMain {
                 temp = results.size()-i;
 
             out.println(temp);
+
+            if(temp == 0) {
+
+                out.flush();
+                continue;
+            }
 
             for(; (i<results.size()) && i<((page-1)*CONTENT_PER_PAGE+5); ++i){
 
