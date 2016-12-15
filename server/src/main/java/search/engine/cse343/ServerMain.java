@@ -26,7 +26,7 @@ public class ServerMain {
         out.println(encodedImage);
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws  Exception{
 
         // init server
         UrlForest urlForest = new UrlForest();
@@ -34,83 +34,81 @@ public class ServerMain {
 
         System.out.println("Forest restored. Links: " + urlForest.getNumUrls());
 
-        try {
-            //init socket
-            ServerSocket serverSocket = new ServerSocket(9090);
-            Socket socket = serverSocket.accept();
+        //init socket
+        ServerSocket serverSocket = new ServerSocket(9090);
+        Socket socket = serverSocket.accept();
 
-            //init streams
-            PrintWriter out =
-                    new PrintWriter(socket.getOutputStream());
-            BufferedReader input =
-                    new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        //init streams
+        PrintWriter out =
+                new PrintWriter(socket.getOutputStream());
+        BufferedReader input =
+                new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            System.out.println("Client connected");
+        System.out.println("Client connected");
 
-            while(socket.isConnected()) {
+        while(socket.isConnected()) {
 
-                String str = input.readLine(); //get query from client
+            String str = input.readLine(); //get query from client
 
-                if (Character.isDigit(str.charAt(0))){
+            System.out.println("Clienttan gelen: " + str);
 
-                    page = Integer.parseInt(str);
+            if (Character.isDigit(str.charAt(0))){
 
-                }else{ //query
+                page = Integer.parseInt(str);
 
-                    results = urlForest.getIndexOfUrls(str);
+            }else{ //query
 
-                    if(results == null){
+                results = urlForest.getIndexOfUrls(str);
 
-                        out.println("0");
-                        out.flush();
-                        continue ;
-                    }
+                if(results == null){
 
-                    page = 1;
-
-                    out.println(results.size()); //send number of results
+                    out.println("0");
+                    out.flush();
+                    continue ;
                 }
 
-                int i=(page-1)*CONTENT_PER_PAGE;
-                int j = i;
-                int temp; //TODO name
+                page = 1;
 
-                //send number of objects to send.
+                out.println(results.size()); //send number of results
+            }
 
-                if(i+CONTENT_PER_PAGE < results.size())
+            int i=(page-1)*CONTENT_PER_PAGE;
+            int j = i;
+            int temp; //TODO name
 
-                    temp = CONTENT_PER_PAGE;
+            //send number of objects to send.
 
-                else
+            if(i+CONTENT_PER_PAGE < results.size())
 
-                    temp = results.size()-i;
+                temp = CONTENT_PER_PAGE;
 
-                out.println(temp);
+            else
 
-                for(; i<results.size() && i<((page-1)*CONTENT_PER_PAGE+5); ++i){
+                temp = results.size()-i;
 
-                    int index = results.get(i);
+            out.println(temp);
 
-                    out.println(urlForest.getResult(index).getTitle());
-                    out.println(urlForest.getResult(index).getUrl());
-                }
+            for(; (i<results.size()) && i<((page-1)*CONTENT_PER_PAGE+5); ++i){
+
+                int index = results.get(i);
+
+                out.println(urlForest.getResult(index).getTitle());
+                out.println(urlForest.getResult(index).getUrl());
+            }
+
+            out.flush();
+
+            //send screenshots
+            for(; (j<results.size()) && j<((page-1)*CONTENT_PER_PAGE+5); ++j) {
+
+                int index = results.get(j);
+
+                sendImage(out, PATH_SCREENSHOTS + Integer.toString(index) + ".jpg");
 
                 out.flush();
-
-                //send screenshots
-                for(; j<((page-1)*CONTENT_PER_PAGE+5); ++j) {
-
-                    int index = results.get(j);
-
-                    sendImage(out, PATH_SCREENSHOTS + Integer.toString(index) + ".jpg");
-
-                    out.flush();
-                }
             }
-            socket.close();
-            serverSocket.close();
-        }catch (Exception e){
-            System.err.println(e.getMessage());
         }
+        socket.close();
+        serverSocket.close();
     }
 }
